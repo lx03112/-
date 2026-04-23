@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瑜伽健身 - 故障申报</title>
+    <!-- 引入 ElementUI 样式 -->
+    <link rel="stylesheet" href="/static/elementui/index.css">
+    <!-- 引入 Vue 2 -->
+    <script src="/static/vue2/vue.min.js"></script>
+    <!-- 引入 ElementUI JS -->
+    <script src="/static/elementui/index.js"></script>
+    <!-- 引入 Axios -->
+    <script src="/static/axios.min.js"></script>
+    <!-- 引入自定义样式和公共样式 -->
+    <link rel="stylesheet" href="/css/repairPage.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <!-- 引入 Cookies操作第三方JS -->
+    <script src="/static/js.cookie.min.js"></script>
+    <style>
+        /* 图片相关样式 */
+        .image-upload-container {
+            margin-top: 15px;
+        }
+        
+        .image-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .image-preview-item {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .image-preview-remove {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .detail-images-container {
+            margin-top: 15px;
+        }
+        
+        .detail-image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .detail-image-item {
+            width: 100%;
+            height: 150px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .detail-image-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .detail-image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .no-images {
+            color: #999;
+            font-style: italic;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .image-count-tag {
+            margin-left: 5px;
+        }
+        
+        /* 图片预览模态框 */
+        .image-preview-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .image-preview-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .image-preview-content img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 4px;
+        }
+        
+        .image-preview-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .preview-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .preview-nav button {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .preview-nav button:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .preview-nav span {
+            color: white;
+            font-size: 16px;
+        }
+        
+        /* 详情弹窗样式 */
+        .detail-content {
+            padding: 10px;
+        }
+        
+        .detail-section {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .detail-section:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #666;
+            min-width: 80px;
+        }
+        
+        .info-value {
+            color: #333;
+            flex: 1;
+        }
+        
+        .repair-notes {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            line-height: 1.6;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 导航栏 -->
+        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
+          text-color="#fff" active-text-color="#ffd04b">
+          <el-menu-item index="1-1" @click="goToIndex">课程安排</el-menu-item>
+          <el-menu-item index="2-1" @click="goToRepair">故障申报</el-menu-item>
+          <el-menu-item index="3-1" @click="goToAccess">健身房展示</el-menu-item>
+           <el-menu-item index="4-1" @click="goToUser" v-if="userId == 12 || userId == 1">账号管理</el-menu-item>
+            <el-menu-item index="5-1" @click="goTosupplier">个人分享</el-menu-item>
+          <el-menu-item index="6" @click="logout">退出登录</el-menu-item>
+        </el-menu>
+
+        <!-- 图片轮播 -->
+        <el-carousel :interval="5000" arrow="" height="450px" style="width: 100%;height: 450px;">
+            <el-carousel-item>
+                <img src="/static/img/brand1.jpg" class="carousel-image">
+            </el-carousel-item>
+            <el-carousel-item>
+                <img src="/static/img/brand2.jpg" class="carousel-image">
+            </el-carousel-item>
+            <el-carousel-item>
+                <img src="/static/img/brand3.jpg" class="carousel-image">
+            </el-carousel-item>
+            <el-carousel-item>
+                <img src="/static/img/brand4.jpg" class="carousel-image">
+            </el-carousel-item>
+        </el-carousel>
+
+        <!-- 页面内容切换 -->
+        <div>
+            <!-- 模块标题 -->
+            <div class="hengfu">
+              <span>故障申报页面</span>
+              <span style="font-size: 13px;font-weight: 500;color: rgb(164, 164, 164);">&emsp;欢迎指出我们的不足</span>
+            </div>
+            <!-- 搜索和按钮区域 -->
+            <template>
+                <div class="searchInput" style="width: 280px;">
+                    <el-input v-model="searchKeyword" placeholder="搜索关键词" clearable size="mini" @input="updateSearch"
+                        @keyup.enter="filterTable"></el-input>
+                    <el-button class="minibutton" size="mini" type="primary" @click="filterTable">
+                        <i class="el-icon-search"></i>
+                    </el-button>
+                    <el-button class="minibutton" size="mini" type="success" @click="addOrder">
+                      <i class="el-icon-plus"></i> 申报故障
+                    </el-button>
+                </div>
+            </template>
+            
+            <!-- 表格 -->
+            <el-table style="zoom: 85%" :data="tableData" style="width: 100%" border highlight-current-row
+                @sort-change="handleSortChange" :loading="loading">
+                <el-table-column prop="repairId" label="维修ID" width="100" sortable></el-table-column>
+                <el-table-column prop="repairRequestId" label="报修单号" width="150"></el-table-column>
+                <el-table-column prop="equipName" label="设备类型" width="170"></el-table-column>
+                <el-table-column prop="repairNotes" label="维修描述" width="200"></el-table-column>
+                <el-table-column prop="repairstatus" label="维修状态" width="240"></el-table-column>
+                <el-table-column prop="userID" label="用户ID" width="100"></el-table-column>
+                <el-table-column label="图片" width="80">
+                    <template slot-scope="scope">
+                        <el-tag v-if="scope.row.imageCount > 0" size="mini" type="success" class="image-count-tag">
+                            {{ scope.row.imageCount }}张
+                        </el-tag>
+                        <span v-else style="color: #999; font-size: 12px;">无图片</span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="createdAt" label="创建时间" width="200" sortable></el-table-column>
+                <el-table-column label="操作" width="280">
+                    <template slot-scope="scope">
+                        <el-button size="mini" type="info" @click="viewOrderDetails(scope.row)">详情</el-button>
+                        <el-button size="mini" type="warning" @click="updateOrder(scope.row)">添加图片</el-button>
+                        <el-button size="mini" type="danger" @click="deleteOrder(scope.row)">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            
+            <!-- 分页组件 -->
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageNum"
+                :page-sizes="[10, 20, 30, 40]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
+                :total="count">
+            </el-pagination>
+        </div>
+
+        <!-- 添加故障弹窗（简化版，先不加图片上传） -->
+        <el-dialog title="申报故障" :visible.sync="addOrderDialog" width="500px" @close="closeAddDialog">
+            <el-form :model="newOrder" label-width="100px" ref="addOrderForm">
+              <el-form-item label="故障描述" :rules="{ required: true, message: '请输入故障描述', trigger: 'blur' }">
+                <el-input type="textarea" v-model="newOrder.repairNotes" placeholder="请输入故障描述" 
+                          :rows="3" maxlength="500" show-word-limit></el-input>
+              </el-form-item>
+                <el-form-item label="设备类型">
+                  <el-select v-model="newOrder.equipmentName" placeholder="请选择设备类型" style="width: 100%;">
+                    <el-option v-for="eq in equipmentList" :key="eq.name"
+                      :label="eq.name" :value="eq.name">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="addOrderDialog = false">取消</el-button>
+              <el-button type="primary" @click="submitNewOrder" :loading="submitting">提交申报</el-button>
+            </div>
+        </el-dialog>
+
+        <!-- 修改故障弹窗（包含图片管理） -->
+        <el-dialog title="修改故障" :visible.sync="updateOrderDialog" width="600px" @close="closeUpdateDialog">
+            <el-form :model="currentOrder" label-width="100px" ref="updateOrderForm">
+              <el-form-item label="故障描述" prop="repairNotes">
+                <el-input type="textarea" v-model="currentOrder.repairNotes" placeholder="请输入故障描述"
+                          :rows="3" maxlength="500" show-word-limit></el-input>
+              </el-form-item>
+              
+              <!-- 显示已上传的图片 -->
+              <el-form-item label="已上传图片" v-if="currentOrder.images && currentOrder.images.length > 0">
+                  <div class="image-preview-container">
+                      <div class="image-preview-item" v-for="(img, index) in currentOrder.images" :key="index">
+                          <img :src="img.imageUrl" :alt="img.imageName || '图片'" @click="previewImage(currentOrder.images, index)">
+                          <div class="image-preview-remove" @click="removeExistingImage(img.imageId, index)">
+                              <i class="el-icon-close"></i>
+                          </div>
+                      </div>
+                  </div>
+              </el-form-item>
+              
+              <!-- 上传新图片 -->
+              <el-form-item label="新增图片">
+                  <el-upload
+                      class="upload-demo"
+                      action="http://127.0.0.1:8081/LX/repair/uploadImages"
+                      :headers="uploadHeaders"
+                      :on-success="handleUpdateUploadSuccess"
+                      :on-error="handleUploadError"
+                      :file-list="updateFiles"
+                      list-type="picture-card"
+                      :limit="6"
+                      :on-exceed="handleExceed"
+                      :before-upload="beforeUpload"
+                      :data="{ repairId: currentOrder.repairId }"
+                      name="files"
+                      multiple>
+                      <i class="el-icon-plus"></i>
+                      <div slot="tip" class="el-upload__tip">
+                          支持上传jpg/png格式图片，单张不超过5MB，最多上传6张
+                      </div>
+                  </el-upload>
+              </el-form-item>
+            </el-form>
+
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="updateOrderDialog = false">取消</el-button>
+              <el-button type="primary" @click="submitUpdatedOrder" :loading="updating">保存修改</el-button>
+            </div>
+        </el-dialog>
+
+        <!-- 故障详情弹窗（包含图片展示） -->
+        <el-dialog title="故障详情" :visible.sync="detailDialogVisible" width="700px" @close="closeDetailDialog">
+            <div class="detail-content">
+                <div class="detail-section">
+                    <h4 style="margin-bottom: 15px; color: #333;">基本信息</h4>
+                    <div class="detail-info">
+                        <div class="info-item">
+                            <span class="info-label">维修ID：</span>
+                            <span class="info-value">{{ currentDetail.repairId }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">报修单号：</span>
+                            <span class="info-value">{{ currentDetail.repairRequestId }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">设备类型：</span>
+                            <span class="info-value">{{ currentDetail.equipName }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">用户ID：</span>
+                            <span class="info-value">{{ currentDetail.userID }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">创建时间：</span>
+                            <span class="info-value">{{ formatDate(currentDetail.createdAt) }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">维修状态：</span>
+                            <el-tag :type="getStatusTagType(currentDetail.repairstatus)">
+                                {{ currentDetail.repairstatus }}
+                            </el-tag>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h4 style="margin-bottom: 10px; color: #333;">故障描述</h4>
+                    <div class="repair-notes">
+                        {{ currentDetail.repairNotes }}
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h4 style="margin-bottom: 10px; color: #333;">故障图片</h4>
+                    <div class="detail-images-container">
+                        <div v-if="!currentDetail.images || currentDetail.images.length === 0" class="no-images">
+                            暂无故障图片
+                        </div>
+                        <div v-else class="detail-image-grid">
+                            <div class="detail-image-item" v-for="(img, index) in currentDetail.images" 
+                                 :key="index" @click="previewImage(currentDetail.images, index)">
+                                <img :src="img.imageUrl" :alt="img.imageName || `故障图片${index+1}`">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="detailDialogVisible = false">关闭</el-button>
+            </span>
+        </el-dialog>
+        
+        <!-- 图片预览大图 -->
+        <div class="image-preview-modal" v-if="previewVisible" @click.self="closePreview">
+            <div class="image-preview-close" @click="closePreview">
+                <i class="el-icon-close"></i>
+            </div>
+            <div class="image-preview-content">
+                <img :src="previewImages[previewIndex]" alt="预览图片">
+            </div>
+            <div class="preview-nav" v-if="previewImages.length > 1">
+                <button @click="prevImage">
+                    <i class="el-icon-arrow-left"></i>
+                </button>
+                <span>{{ previewIndex + 1 }} / {{ previewImages.length }}</span>
+                <button @click="nextImage">
+                    <i class="el-icon-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <!-- 引入页面逻辑 -->
+    <script src="/js/repairPage.js"></script>
+</body>
+</html>

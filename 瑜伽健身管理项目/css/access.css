@@ -1,0 +1,572 @@
+/* 底部 */
+.footer {
+    background-color: #F8F8F8;
+    height: 580px;
+}
+/* 服务 */
+.service {
+    padding: 60px 0;
+    height: 178px;
+    border-bottom: 1px solid #E8E8E8;
+}
+.service ul {
+    display: flex;
+    justify-content: space-evenly;
+}
+.service ul li {
+    display: flex;
+    width: 200px;
+    height: 58px;
+}
+.service ul li h5 {
+    width: 58px;
+    height: 58px;
+    margin-right: 20px;
+    background-image: url(../static/img/强健自己.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+.service ul li p {
+    line-height: 58px;
+    font-size: 28px;
+}
+.service li:nth-child(2) h5 {
+    background-image: url(../static/img/快乐生活.png);
+}
+.service li:nth-child(3) h5 {
+    background-image: url(../static/img/享受运动.png);
+}
+.service li:nth-child(4) h5 {
+    background-image: url(../static/img/健康人生.png);
+}
+/* 帮助中心 */
+.help-center {
+    display: flex;
+    justify-content: flex-start;
+    height: 300px;
+}
+.help-center .left {
+    display: flex;
+}
+.help-center .left dl {
+    margin-right: 84px;
+}
+.help-center .left dl:last-child {
+    margin-right: 0;
+}
+.help-center .left dl dt {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+.help-center .left dl dd {
+    margin-bottom: 8px;
+    display: block; /* 改为block，使垂直排列更舒适 */
+    margin-right: 0;
+}
+.help-center .left dl dd a {
+    color: #555555;
+    font-size: 16px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.help-center .left dl dd a:hover {
+    color: #00BE9A; /* 悬停时改变颜色 */
+}
+.help-center .left .iconfont {
+   color: #0cc568;
+}
+.help-center .right ul{
+    display: flex;
+}
+.help-center .right ul li:first-child {
+    margin-right: 55px;
+}
+.help-center .right ul li {
+    height: 120px;
+    width: 120px;
+    margin-bottom: 10px;
+}
+.help-center .right ul li img {
+    width: 100px;
+    height: 100px;
+}
+.help-center .right ul li p {
+    text-align: center;
+    color: #969696;
+}
+.help-center .left dl dd a span {
+    font-size: 14px;  /* 更小的字体 */
+    color: #999;      /* 更淡的颜色 */
+    margin-left: 8px; /* 可选：添加一些间距 */
+}
+
+
+/* 健身器材 */
+.access-container {
+    width: 100%;
+    max-width: 1200px; /* 可根据需要调整 */
+    margin: 0 auto;
+}
+
+.access-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 垂直居中对齐 */
+    margin-top: 60px;
+    margin-bottom: 20px;
+}
+
+.access-left h3 {
+    font-size: 28px; /* 调整标题大小 */
+    font-weight: 600; /* 加粗 */
+    color: #333; /* 深色字体 */
+    margin: 0; /* 去掉默认边距 */
+}
+
+.access-right {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    gap: 40px; /* 选项卡和"查看全部"之间的间距 */
+}
+
+.access-right ul {
+    display: flex;
+    gap: 20px; /* 选项卡之间的间距 */
+    margin: 0; /* 去掉默认边距 */
+    padding: 0; /* 去掉默认内边距 */
+    list-style: none; /* 去掉列表样式 */
+}
+
+.access-right ul li {
+    margin: 0; /* 去掉左边距 */
+}
+
+.access-right ul li a {
+    display: block;
+    padding: 8px 16px; /* 增加内边距，使点击区域更大 */
+    font-size: 16px;
+    color: #666; /* 默认灰色字体 */
+    text-decoration: none; /* 去掉下划线 */
+    border-radius: 20px; /* 圆角效果 */
+    transition: all 0.3s ease; /* 平滑过渡效果 */
+    font-weight: 500; /* 中等粗细 */
+}
+
+.access-right ul li a:hover {
+    color: #00BE9A; /* 悬停时变为主题色 */
+    background-color: rgba(0, 190, 154, 0.1); /* 悬停背景色 */
+}
+
+.access-right ul li .active {
+    background-color: #00BE9A; /* 主题色背景 */
+    color: #fff; /* 白色字体 */
+    font-weight: 600; /* 加粗 */
+    text-decoration: none; /* 确保没有下划线 */
+}
+
+.access-right ul li .active:hover {
+    background-color: #00a886; /* 悬停时深一点的主题色 */
+    color: #fff;
+}
+
+.access-right .more {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #666; /* 与选项卡默认颜色一致 */
+    text-decoration: none; /* 去掉下划线 */
+    transition: all 0.3s ease; /* 平滑过渡效果 */
+    font-weight: 500; /* 中等粗细 */
+}
+
+.access-right .more:hover {
+    color: #00BE9A; /* 悬停时变为主题色 */
+}
+
+.access-right .more .iconfont {
+    margin-left: 6px; /* 图标与文字之间的间距 */
+    font-size: 12px;
+    transition: transform 0.3s ease; /* 图标动画效果 */
+}
+
+.access-right .more:hover .iconfont {
+    transform: translateX(3px); /* 悬停时图标向右移动 */
+}
+
+/* 产品内容容器 */
+.access-content {
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* 左侧部分 - 适当缩小 */
+.access-content .left {
+    flex: 0 0 25%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.access-content .left a {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.access-content .left img {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.access-content .left img:hover {
+    transform: scale(1.03);
+}
+
+/* 右侧部分 */
+.access-content .right {
+    flex: 1;
+}
+
+/* 产品列表布局 */
+.access-content ul {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 一行四张图 */
+    gap: 20px;
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+
+/* 每个产品项 */
+.access-content ul li {
+    background-color: #F5F5F5;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 鼠标悬停效果 - 变绿色 */
+.access-content ul li:hover {
+    background-color: #e8f5e9;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(46, 125, 50, 0.2);
+}
+
+/* 产品链接 */
+.access-content ul li a {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: #333;
+    padding: 15px;
+}
+
+/* 产品图片容器 */
+.access-content ul li .pic {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 产品图片 */
+.access-content ul li .pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+/* 悬停时图片放大效果 */
+.access-content ul li:hover .pic img {
+    transform: scale(1.05);
+}
+
+/* 产品文字信息 */
+.access-content ul li .txt {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 产品标题 */
+.access-content ul li h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+    color: #2a5c3d;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.access-content ul li:hover h4 {
+    color: #1b5e20;
+}
+
+/* 产品描述 */
+.access-content ul li p {
+    margin: 0 0 8px 0;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* 价格样式 */
+.access-content ul li p:last-child {
+    color: #d32f2f;
+    font-weight: 600;
+    margin-top: auto;
+    font-size: 1.1rem;
+}
+
+.loading-categories {
+            display: inline-block;
+            margin-left: 10px;
+            color: #999;
+            font-size: 14px;
+}
+
+
+
+
+
+
+/* 二维码部分 */
+.qrcode-section {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+.qrcode-section ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+.qrcode-section ul li {
+    margin: 0 20px;
+    text-align: center;
+}
+.qrcode-section ul li img {
+    width: 100px;
+    height: 100px;
+}
+.qrcode-section ul li p {
+    margin-top: 10px;
+    color: #969696;
+}
+
+
+
+
+
+/* banner */
+.banner {
+    height: 500px;
+    background-color: #f6f0f0;
+}
+
+.banner .wrapper {
+    position: relative;
+    height: 500px;
+    background-color: #f3f2f2;
+    overflow: hidden;
+}
+
+/* 图片 */
+.banner .pic {
+    display: flex;
+    width: 400%; /* 3张图片总宽度，每张1240px */
+    flex-shrink: 0;
+    transition: transform 0.5s ease; /* 添加平滑过渡效果 */
+}
+.sub-nav {
+    position: absolute;
+   width: 250px;
+   height: 500px;
+   left: 0;
+   top: 0;
+   background-color: rgba(0,0,0,0.42);
+}
+/* 去掉ul的默认样式（点和内边距） */
+.sub-nav ul {
+    list-style: none; /* 去掉列表项前的点 */
+    padding: 0; /* 去掉内边距 */
+    margin: 0; /* 去掉外边距 */
+}
+/* 所有链接去掉下划线 */
+.sub-nav li a {
+    margin-right: 5px;
+    font-size: 14px;
+    color: #fff;
+    text-decoration: none; /* 去掉下划线 */
+    transition: color 0.3s; /* 添加悬停过渡效果 */
+}
+.sub-nav li {
+    justify-content: space-between;
+    padding-left: 30px;
+    padding-right: 12px;
+    height: 50px;
+    line-height: 50px;
+    color: #fff;
+    cursor: pointer;
+}
+.sub-nav li:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+}
+.sub-nav li .classify {
+   margin-right: 14px;
+   font-size: 16px;
+}
+.sub-nav li a {
+    margin-right: 5px;
+    font-size: 14px;
+    color: #fff;
+}
+.iconfont.icon-arrow-right-bold {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-right: 2px solid #fff;
+    border-top: 2px solid #fff;
+    transform: rotate(45deg); /* 将正方形旋转45度变成箭头 */
+    margin-left: 20px;
+}
+
+/* 圆点指示器 */
+.banner ol {
+    position: absolute;
+    list-style: none; /* 添加这行，移除数字序号 */
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+}
+.banner ol li {
+    width: 22px;
+    height: 22px;
+    margin-left: 10px;
+    border-radius: 50%;
+    /* background-color: rgba(255, 255, 255, 0.5); */
+    cursor: pointer;
+}
+.banner ol i{
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin: 5px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.banner ol .current {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.banner ol .current i {
+    background-color: #fff;
+}
+
+
+/* 新鲜好物 */  
+/* 标题 -- 公共样式 */  
+.title {  
+    display: flex;  
+    justify-content: space-between;  
+    margin-top: 49px;  
+    margin-bottom: 39px;  
+    height: 42px;  
+  align-items: flex-end; /* 修改：底部对齐 */
+ 
+}  
+
+.title .left {  
+    display: flex;  
+   height: 100%; /* 占满父容器高度 */
+    align-items: baseline; /* 新增：基线对齐 */
+    gap: 20px; /* 新增：元素间距 */
+}  
+
+.title .left h3 { 
+
+    margin-right: 35px;  
+    font-size: 22px;  
+    line-height: 1; /* 确保行高正常 */
+      margin-bottom: 0; /* 确保与底部无间距 */ 
+}  
+
+.title .left p {  
+    align-self: flex-end;  
+    color: #A1A1A1; 
+    font-size: 14px;  
+    line-height: 1; /* 确保行高正常 */
+    margin-bottom: 0; /* 确保与底部无间距 */ 
+}  
+.title .right .more {  
+   line-height: 42px;
+    margin-bottom: 0; /* 确保与底部无间距 */ 
+    line-height: 1; /* 确保行高正常 */
+    color: #A1A1A1;  /* 新增：与副标题相同的颜色 */
+    font-size: 14px;  /* 新增：与副标题相同的字体大小 */
+    text-decoration: none;  /* 可选：移除下划线 */
+}
+.title .right .more .iconfont {
+   margin-left: 10px;
+}   
+
+
+/* 好物内容 -- 公共样式 */
+.bd ul {
+     text-decoration: none;  /* 可选：移除下划线 */
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+}
+
+.bd li {
+    width: 304px;
+    height: 454px;
+    background-color: #EEF9F4;
+    text-decoration: none; /* 删除链接下划线 */
+     list-style: none; /* 添加这行，移除数字序号 */
+}
+
+.bd li .pic {
+    width: 304px;
+    height: 304px;
+}
+
+.bd li .txt {
+    text-align: center;
+}
+.bd li h4 {
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 20px;
+}
+.bd li p {
+    color: #AA2113;
+    font-size: 14px;
+}
+.bd li p span {
+    font-size: 18px;
+    color: #7fc496;
+}

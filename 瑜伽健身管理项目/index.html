@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瑜伽健身</title>
+    <!-- 引入 ElementUI 样式 -->
+    <link rel="stylesheet" href="/static/elementui/index.css">
+    <!-- 引入 Vue 2 -->
+    <script src="/static/vue2/vue.min.js"></script>
+    <!-- 引入 ElementUI JS -->
+    <script src="/static/elementui/index.js"></script>
+    <!-- 引入 Axios -->
+    <script src="/static/axios.min.js"></script>
+    <!-- 引入自定义样式和公共样式 -->
+    <link rel="stylesheet" href="/css/repairPage.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <!-- 引入cookeis -->
+    <script src="/static/js.cookie.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 导航栏 -->
+        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
+            text-color="#fff" active-text-color="#ffd04b">
+            <el-menu-item index="1-1" @click="goToIndex">课程安排</el-menu-item>
+            <el-menu-item index="2-1" @click="goToRepair">故障申报</el-menu-item>
+            <el-menu-item index="3-1" @click="goToAccess">健身房展示</el-menu-item>
+              <el-menu-item index="4-1" @click="goToUser" v-if="userId == 12 || userId == 1">账号管理</el-menu-item>
+            <el-menu-item index="5-1" @click="goTosupplier">个人分享</el-menu-item>
+            <el-menu-item index="6" @click="logout">退出登录</el-menu-item> 
+        </el-menu>
+
+        <!-- 图片轮播 -->
+        <el-carousel :interval="5000" arrow="" height="450px" style="width: 100%;height: 450px;">
+            <el-carousel-item>
+                <img src="/static/img/brand1.jpg" class="carousel-image">
+            </el-carousel-item>
+            <el-carousel-item>
+                <img src="/static/img/brand2.jpg" class="carousel-image">
+            </el-carousel-item>
+            <el-carousel-item>
+                <img src="/static/img/brand3.jpg" class="carousel-image">
+            </el-carousel-item>
+            <el-carousel-item>
+                <img src="/static/img/brand4.jpg" class="carousel-image">
+            </el-carousel-item>
+        </el-carousel>
+
+        <!-- 页面内容切换 -->
+        <div>
+            <!-- 模块标题 -->
+            <div class="hengfu">
+                <span>课程安排页面</span>
+                <span style="font-size: 13px;font-weight: 500;color: rgb(164, 164, 164);">每个人都是未经雕刻的璞玉</span>
+            </div>
+            <!-- 表格 -->
+            <template>
+                <div class="searchInput">
+                    <el-input v-model="searchKeyword" placeholder="搜索关键词" clearable size="mini" @input="updateSearch"
+                        @keyup.enter="filterTable"></el-input>
+                    <el-button class="minibutton" size="mini" type="primary" @click="filterTable"><i
+                            class="el-icon-search"></i></el-button>
+                </div>
+            </template>
+            <el-table style="zoom: 90%" :data="tableData" style="width: 100%" border highlight-current-row
+                @sort-change="handleSortChange" :loading="loading">
+                <el-table-column prop="courseId" label="课程 ID" width="100" sortable></el-table-column>
+                <el-table-column prop="courseModel" label="课程类型" width="170"></el-table-column>
+                <el-table-column prop="courseDescription" label="课程内容"></el-table-column>
+                <el-table-column prop="expectStatus" label="预期成果" width="200"></el-table-column>
+                <el-table-column prop="coach" label="教练" width="150"></el-table-column>
+                <el-table-column prop="time" label="时间安排" width="180" sortable></el-table-column>
+                <el-table-column label="操作" width="200">
+                    <template slot-scope="scope">
+                        <el-button size="mini" type="info" @click="viewOrderDetails(scope.row)">详情</el-button>
+                        <el-button size="mini" type="danger" @click="deleteOrder(scope.row)">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+            <!-- 分页组件 -->
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageNum"
+                :page-sizes="[10, 20, 30, 40]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
+                :total="count">
+            </el-pagination>
+        </div>
+
+        <!-- 功能按钮组 悬浮屏幕右下角 添加课程 -->
+        <el-tooltip class="item" effect="dark" content="添加课程" placement="top-start">
+            <el-button class="addOrderButton" type="primary" icon="el-icon-plus" @click="addOrder"></el-button>
+        </el-tooltip>
+
+        <!-- 添加课程的表单弹出框 -->
+        <el-dialog title="添加课程" :visible.sync="showAddOrderDialog" width="30%">
+            <el-form :model="newOrder" label-width="80px">
+                <el-form-item label="课程类型">
+                    <el-input v-model="newOrder.courseModel"></el-input>
+                </el-form-item>
+                <el-form-item label="课程内容">
+                    <el-input v-model="newOrder.courseDescription"></el-input>
+                </el-form-item>
+                <el-form-item label="预期成果">
+                    <el-input v-model="newOrder.expectStatus"></el-input>
+                </el-form-item>
+                <el-form-item label="时间安排">
+                    <el-input v-model="newOrder.timeSchedule"></el-input>
+                </el-form-item>
+                <el-form-item label="教练">
+                    <el-select v-model="newOrder.coachId" placeholder="请选择">
+                        <el-option v-for="coach in coaches" :key="coach.userId"
+                            :label="coach.userName" :value="coach.userId">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="showAddOrderDialog = false">取 消</el-button>
+                <el-button type="primary" @click="submitNewOrder">确 定</el-button>
+            </span>
+        </el-dialog>
+
+        <!-- 引入页面逻辑 -->
+        <script src="/js/indexPage.js"></script>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>健身房展示</title>
+    <!-- 引入 ElementUI 样式 -->
+    <link rel="stylesheet" href="/static/elementui/index.css">
+    <!-- 引入 Vue 2 -->
+    <script src="/static/vue2/vue.min.js"></script>
+    <!-- 引入 ElementUI JS -->
+    <script src="/static/elementui/index.js"></script>
+    <!-- 引入 Axios -->
+    <script src="/static/axios.min.js"></script>
+    <!-- 引入自定义样式和公共样式 -->
+    <link rel="stylesheet" href="/css/access.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <!-- 引入 Cookies操作第三方JS -->
+    <script src="/static/js.cookie.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+                <!-- 导航栏 -->
+                <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64"
+                    text-color="#fff" active-text-color="#ffd04b">
+                    <el-menu-item index="1-1" @click="goToIndex">课程安排</el-menu-item>
+                    <el-menu-item index="2-1" @click="goToRepair">故障申报</el-menu-item>
+                    <el-menu-item index="3-1" @click="goToAccess">健身房展示</el-menu-item>
+                    <el-menu-item index="4-1" @click="goToUser" v-if="userId == 12 || userId == 1">账号管理</el-menu-item>
+                   <el-menu-item index="5-1" @click="goTosupplier">个人分享</el-menu-item>
+                    <el-menu-item index="6" @click="logout">退出登录</el-menu-item>
+                </el-menu>
+
+            <!-- banner -->
+<div class="banner">
+    <div class="wrapper">
+        <!-- 图片 -->
+        <ul class="pic">
+            <li><a href="#"><img src="../static/img/banner1.jpg" alt=""></a></li>
+            <li><a href="#"><img src="../static/img/banner2.jpg" alt=""></a></li>
+            <li><a href="#"><img src="../static/img/banner3.jpg" alt=""></a></li>
+            <li><a href="#"><img src="../static/img/banner4.jpg" alt=""></a></li>
+        </ul>
+        
+        <!-- 侧导航 ul -->
+        <div class="sub-nav">
+            <ul>
+                <li><a href="#" class="classify">课程安排</a><a href="#">会员</a><a href="#">教练</a><span class="iconfont icon-arrow-right-bold"></span></li>
+                <li><a href="#" class="classify">故障申报</a><a href="#">设备</a><a href="#">维修</a><span class="iconfont icon-arrow-right-bold"></span></li>
+                <li><a href="#" class="classify">健身房展示</a><a href="#">器材</a><a href="#">环境</a><span class="iconfont icon-arrow-right-bold"></span></li>
+                <li><a href="#" class="classify">账号管理</a><a href="#">设置</a><a href="#">安全</a><span class="iconfont icon-arrow-right-bold"></span></li>
+                <li><a href="#" class="classify">个人分享</a><a href="#">列表</a><a href="#">权限</a><span class="iconfont icon-arrow-right-bold"></span></li>
+                <li>会添加的</li>
+                <li>会添加的</li>
+                <li>会添加的</li>
+                <li>会添加的</li>
+                <li>会添加的</li>
+            </ul>
+       </div>
+        
+        <!-- 圆点指示器 -->
+        <ol class="dots">
+            <li class="current" data-index="0"><i></i></li>
+            <li data-index="1"><i></i></li>
+            <li data-index="2"><i></i></li>
+            <li data-index="3"><i></i></li>
+        </ol>
+        
+        <!-- 左右箭头 -->
+        <a href="javascript:;" class="arrow left">&lt;</a>
+        <a href="javascript:;" class="arrow right">&gt;</a>
+    </div>
+</div>
+
+
+           <!-- 优秀教练 -->
+<div class="goods wrapper">
+<!-- 标题 -->
+<div class="title">
+    <div class="left">
+    <h3>优秀教练</h3>
+    <p>技术过硬 值得信赖</p>
+    </div>
+    <div class="right">
+    <a href="#" class="more">查看全部<span class="iconfont icon-arrow-right-bold"></span></a>
+    </div>
+    </div>
+<!-- 内容 -->
+<div class="bd">
+    <ul>
+    <li>
+    <a href="#">
+    <div class="pic"><img src="../static/img/教练1.jpg" alt=""></div>
+    <div class="txt">
+        <h4>张三</h4>
+        <p>擅长项目：力量训练、有氧运动</p>
+        <p>从业经验：<Span>5年</Span></p>
+    </div>
+    </a>
+    </li>
+    <li>
+    <a href="#">
+    <div class="pic"><img src="../static/img/教练四.webp" alt=""></div>
+    <div class="txt">
+        <h4>李四</h4>
+        <p>擅长项目：拉伸长度</p>
+        <p>从业经验：<Span>11年</Span></p>
+    </div>
+    </a>
+    </li>
+    <li>
+    <a href="#">
+    <div class="pic"><img src="../static/img/教练二.webp" alt=""></div>
+    <div class="txt">
+        <h4>王五</h4>
+        <p>擅长项目：增肌增重 锻炼技巧</p>
+        <p>从业经验：<Span>3年</Span></p>
+    </div>
+    </a>
+    </li>
+    <li>
+    <a href="#">
+    <div class="pic"><img src="../static/img/教练五.webp" alt=""></div>
+    <div class="txt">
+        <h4>赵六</h4>
+        <p>擅长项目：身体塑形</p>
+        <p>从业经验：<Span>7年</Span></p>
+    </div>
+    </a>
+    </li>
+    </ul>
+</div>
+  </div>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>明星器材</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <div class="access-container">
+        <div class="access-title">
+            <div class="access-left">
+                <h3>明星器材</h3>
+            </div>
+            <div class="access-right">
+                <ul id="categoryList">
+                    <li><a href="#" class="active" data-category="热门">热门</a></li>
+                    <li><a href="#" data-category="新品推荐">新品推荐</a></li>
+                    <li><a href="#" data-category="臀部器械">臀部器械</a></li>
+                    <li><a href="#" data-category="胸部器械">胸部器械</a></li>
+                    <li><a href="#" data-category="背部器械">背部器械</a></li>
+                    <li><a href="#" data-category="肩部器械">肩部器械</a></li>
+                </ul>
+                <a href="#" class="more">查看全部<span class="iconfont icon-arrow-right">→</span></a>
+            </div>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="access-content">
+            <div class="left">
+                <!-- 教练推荐 -->
+                <a href="#"><img src="../static/img/Paco教练.png" alt="教练推荐"></a>
+            </div>
+            <div class="right">
+                <ul id="equipmentList">
+                    <!-- 内容将通过JavaScript动态加载 -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../static/js/access.js"></script>
+</body>
+</html>
+    
+                <!-- 帮助中心 -->
+                 <div class="help-center">
+                     <div class = "left">
+                        <dl>
+                            <dt>帮助中心</dt>
+                            <dd><a href="#">新手指南</a></dd>
+                            <dd><a href="#">常见问题</a></dd>
+                            <dd><a href="#">服务支持</a></dd>
+                        </dl>
+                         <dl>
+                            <dt>会员中心</dt>
+                            <dd><a href="#">会员注册</a></dd>
+                            <dd><a href="#">会员权益</a></dd>
+                            <dd><a href="#">续费查询</a></dd>
+                        </dl>
+                         <dl>
+                            <dt>课程中心</dt>
+                            <dd><a href="#">课程安排</a></dd>
+                            <dd><a href="#">教练介绍</a></dd>
+                            <dd><a href="#">私教预约</a></dd>
+                        </dl>
+                         <dl>
+                            <dt>设备中心</dt>
+                            <dd><a href="#">设备使用</a></dd>
+                            <dd><a href="#">维护保养</a></dd>
+                            <dd><a href="#">故障申报</a></dd>
+                        </dl>
+                         <dl>
+                            <dt>联系我们</dt>
+                            <dd><a href="#">工作电话<span>19067179384</span></a></dd>
+                            <dd><a href="#">工作时间<span>每周二至周日</span></a></dd>
+                            <dd><a href="#">在线客服<span class="iconfont icon-customer-service"></span></a></dd>
+                        </dl>
+                    </div>
+                    
+                <!-- 版权 -->
+                 <div class="copyright">
+                   
+                 </div>
+            </div>
+               
+            <!-- 收款码和赞赏码 -->
+            <div class="qrcode-section">
+                <ul>
+                    <li><img src="/static/img/我的收款码.png" alt="微信二维码"></li>
+                    <p>我的收款码</p>
+                    <li><img src="/static/img/赞赏码.png" alt="支付宝二维码"></li>
+                    <p>赞赏码</p>
+                </ul>
+            </div>
+            
+            <p>© 2024 健身房管理系统. All rights reserved.</p>
+        </div>         
+ </div>
+    </div>
+        <!-- 引入页面逻辑 -->
+        <script src="/js/access.js"></script>
+       
+</body>
+
+</html>
